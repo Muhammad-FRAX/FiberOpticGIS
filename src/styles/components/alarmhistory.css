@@ -1,0 +1,40 @@
+.alarm-history {
+    background: #fff;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .alarm-history h3 {
+    margin-bottom: 1rem;
+  }
+  
+  .alarm-history ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .alarm-history ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .alarm-history ul li:last-child {
+    border-bottom: none;
+  }
+  
+  .alarm-history .timestamp {
+    font-weight: 500;
+  }
+  
+  .alarm-history .message {
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+  
