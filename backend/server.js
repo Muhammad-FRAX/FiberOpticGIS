@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const ldap = require('ldapjs');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -13,10 +14,17 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/login', (req, res) => {
+// Rate limiting middleware
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 login requests
+  message: 'Too many login attempts from this Device, please try again after 15 minutes'
+});
+
+app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
 
-  // Check if the user is the admin user
+  // admin user that is used for testing
   if (username === 'admin' && password === 'admin') {
     return res.json({ message: 'Authenticated!', username: 'admin' });
   }
@@ -29,7 +37,7 @@ app.post('/login', (req, res) => {
   });
 
   const opts = {
-    filter: `(&(objectclass=user)(samaccountname=${username}))`,
+    filter: `(&(objectclass=user)(samaccountname=${ldap.escape(username)}))`,
     scope: 'sub',
     attributes: ['objectGUID']
   };
@@ -53,7 +61,7 @@ app.post('/login', (req, res) => {
         client.search(process.env.LDAP_BASE_DN, opts, (searchError, search) => {
           if (searchError) {
             console.error('error: ' + searchError.message);
-            return res.status(500).json({ message: 'Search error', error: searchError.message });
+            return res.status(500).json({ message: 'Search error', error: 'An error occurred while searching' });
           }
 
           search.on('searchEntry', (entry) => {
@@ -87,7 +95,7 @@ app.post('/login', (req, res) => {
         console.log('client disconnected');
       }
     });
-    return res.status(500).json({ message: 'Authentication failed', error: error.message });
+    return res.status(500).json({ message: 'Authentication failed', error: 'An error occurred during authentication' });
   }
 });
 

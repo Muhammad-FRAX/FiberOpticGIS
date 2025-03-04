@@ -1,3 +1,5 @@
+// src/services/neo4jService.js
+
 import neo4j from 'neo4j-driver';
 
 const driver = neo4j.driver(
@@ -19,7 +21,7 @@ export const fetchSitesAndLinks = async () => {
       MATCH (s:Site)
       OPTIONAL MATCH (d:Device)-[:LOCATED_IN]->(s)
       OPTIONAL MATCH (d)-[r:LINKED_WITH]->(d2:Device)-[:LOCATED_IN]->(s2:Site)
-      RETURN s, collect(d) as devices, collect({site: s2, link: r}) as linkedSites
+      RETURN s, collect(DISTINCT d) as devices, collect({site: s2, link: r}) as linkedSites
     `);
 
     const sites = result.records.map(record => ({
