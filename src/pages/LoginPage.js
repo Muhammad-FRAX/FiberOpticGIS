@@ -41,3 +41,4 @@ const LoginPage = ({ onLogin }) => {
 };
 
 export default LoginPage;
+// the end stage

@@ -41,6 +41,7 @@ const MapView = () => {
                 <p>Site Code: ${site.site_code}</p>
                 <p>Latitude: ${site.latitude}</p>
                 <p>Longitude: ${site.longitude}</p>
+                <p>Zone: ${site.site_zone}</p>
                 <p>Devices:</p>
                 <ul>
                   ${devices.map(device => `<li>${device.device_name}</li>`).join('')}

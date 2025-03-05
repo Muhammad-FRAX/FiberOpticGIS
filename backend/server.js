@@ -26,7 +26,7 @@ app.post('/login', loginLimiter, (req, res) => {
 
   // Append domain if missing
   const userPrincipalName = username.includes('@') ? username : `${username}@sd.zain.com`;
-  if (username === 'admin' && password === 'admin') {
+  if (username === process.env.LDAP_USERNAME && password === process.env.LDAP_PASSWORD) {
     return res.json({ message: 'Authenticated!', username: 'admin' });
   }
   const client = ldap.createClient({
@@ -50,7 +50,7 @@ app.post('/login', loginLimiter, (req, res) => {
             console.log('client disconnected');
           }
         });
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Log in Failed' });
       } else {
         console.log('success');
         client.unbind((unbindError) => {
@@ -79,3 +79,4 @@ app.post('/login', loginLimiter, (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+// the end stage
