@@ -10,6 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "ldapjs": "^3.0.7",
     "leaflet": "^1.7.1",
     "neo4j-driver": "^5.28.1",
     "react": "^17.0.2",

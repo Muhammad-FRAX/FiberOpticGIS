@@ -26,8 +26,8 @@ const Sidebar = () => {
           </li>
           <li>
             <a href="/warnings">
-              <img src={warningsIcon} alt="Warnings" className="icon" />
-              <span className="title">Warnings</span>
+              <img src={warningsIcon} alt="Alarms" className="icon" />
+              <span className="title">Alarms</span>
             </a>
           </li>
           <li>
@@ -39,7 +39,7 @@ const Sidebar = () => {
           <li>
             <a href="/dashboard">
               <img src={dashboardIcon} alt="Dashboard" className="icon" />
-              <span className="title">Dashboard</span>
+              <span className="title">Statstics</span>
             </a>
           </li>
           <li>

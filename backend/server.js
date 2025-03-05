@@ -17,80 +17,57 @@ app.use(bodyParser.json());
 // Rate limiting middleware
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 login requests
-  message: 'Too many login attempts from this Device, please try again after 15 minutes'
+  max: 5, // Limit each IP to 5 login requests per windowMs
+  message: 'Too many login attempts from this IP, please try again after 15 minutes'
 });
 
 app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
 
-  // admin user that is used for testing
+  // Append domain if missing
+  const userPrincipalName = username.includes('@') ? username : `${username}@sd.zain.com`;
   if (username === 'admin' && password === 'admin') {
     return res.json({ message: 'Authenticated!', username: 'admin' });
   }
-
-  ldap.Attribute.settings.guid_format = ldap.GUID_FORMAT_B;
   const client = ldap.createClient({
     url: process.env.LDAP_URL,
     timeout: 5000,
     connectTimeout: 10000
   });
 
-  const opts = {
-    filter: `(&(objectclass=user)(samaccountname=${ldap.escape(username)}))`,
-    scope: 'sub',
-    attributes: ['objectGUID']
-  };
-
   console.log('--- going to try to connect user ---');
+  console.log(`LDAP URL: ${process.env.LDAP_URL}`);
+  console.log(`User Principal Name: ${userPrincipalName}`);
 
   try {
-    client.bind(username, password, (error) => {
+    client.bind(userPrincipalName, password, (error) => {
       if (error) {
-        console.log(error.message);
+        console.log('Bind error:', error.message);
         client.unbind((unbindError) => {
           if (unbindError) {
-            console.log(unbindError.message);
+            console.log('Unbind error:', unbindError.message);
           } else {
             console.log('client disconnected');
           }
         });
         return res.status(401).json({ message: 'Invalid credentials' });
       } else {
-        console.log('connected');
-        client.search(process.env.LDAP_BASE_DN, opts, (searchError, search) => {
-          if (searchError) {
-            console.error('error: ' + searchError.message);
-            return res.status(500).json({ message: 'Search error', error: 'An error occurred while searching' });
+        console.log('success');
+        client.unbind((unbindError) => {
+          if (unbindError) {
+            console.log('Unbind error:', unbindError.message);
+          } else {
+            console.log('client disconnected');
           }
-
-          search.on('searchEntry', (entry) => {
-            if (entry.object) {
-              console.log('entry: %j ' + JSON.stringify(entry.object));
-            }
-          });
-
-          search.on('error', (searchError) => {
-            console.error('error: ' + searchError.message);
-          });
-
-          client.unbind((unbindError) => {
-            if (unbindError) {
-              console.log(unbindError.message);
-            } else {
-              console.log('client disconnected');
-            }
-          });
-
-          return res.json({ message: 'Authenticated!', username });
         });
+        return res.json({ message: 'Authenticated!', username });
       }
     });
   } catch (error) {
-    console.log(error);
+    console.log('Catch error:', error.message);
     client.unbind((unbindError) => {
       if (unbindError) {
-        console.log(unbindError.message);
+        console.log('Unbind error:', unbindError.message);
       } else {
         console.log('client disconnected');
       }
