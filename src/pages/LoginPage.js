@@ -10,8 +10,9 @@ const LoginPage = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const user = await login(username, password);
-      onLogin(user);
+      const { token } = await login(username, password);
+      localStorage.setItem('token', token); // Store the token in local storage
+      onLogin({ username });
     } catch (err) {
       setError(err.message);
     }
@@ -41,4 +42,3 @@ const LoginPage = ({ onLogin }) => {
 };
 
 export default LoginPage;
-// the end stage
