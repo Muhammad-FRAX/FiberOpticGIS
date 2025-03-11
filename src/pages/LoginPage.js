@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../services/authService';
 import '../styles/pages/loginpage.css';
+import logo from '../assets/images/loginlogo.png';
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -20,6 +21,7 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div className="login-page">
+      <img src={logo} alt="Logo" className="login-image" /> {}
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input

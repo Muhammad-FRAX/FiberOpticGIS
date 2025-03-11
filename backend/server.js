@@ -17,9 +17,9 @@ app.use(bodyParser.json());
 
 // Rate limiting middleware
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 5 * 60 * 1000, // 15 minutes
   max: 5, // Limit each IP to 5 login requests per windowMs
-  message: 'Too many login attempts from this IP, please try again after 15 minutes'
+  message: 'Too many login attempts please try again after 5 minutes'
 });
 
 // JWT Middleware
@@ -36,6 +36,16 @@ const authenticateToken = (req, res, next) => {
 
 app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
+  
+
+  // Validate the username and password
+  if (
+    username.trim() === "" || 
+    password.trim() === "" || 
+    username.includes(" ")
+  ) {
+    return res.status(400).json({ message: 'Invalid username or password' });
+  }
 
   // Append domain if missing
   const userPrincipalName = username.includes('@') ? username : `${username}@sd.zain.com`;
