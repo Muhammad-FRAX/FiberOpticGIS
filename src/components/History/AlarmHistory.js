@@ -24,3 +24,5 @@ const AlarmHistory = () => {
 };
 
 export default AlarmHistory;
+
+// before 

@@ -1,15 +1,19 @@
 import React from 'react';
 import '../../styles/components/sidebar.css';
-import homeIcon from '../../assets/icons/home-icon.svg';
-import listIcon from '../../assets/icons/list-icon.svg';
-import warningsIcon from '../../assets/icons/warnings-icon.svg';
-import historyIcon from '../../assets/icons/history-icon.svg';
-import dashboardIcon from '../../assets/icons/dashboard-icon.svg';
-import settingsIcon from '../../assets/icons/settings-icon.svg';
+import homeIcon from '../../assets/icons/home-icon.png';
+import listIcon from '../../assets/icons/list-icon.png';
+import warningsIcon from '../../assets/icons/alarm_icon.png';
+import historyIcon from '../../assets/icons/history_icon.png';
+import dashboardIcon from '../../assets/icons/dashboard-icon.png';
+import settingsIcon from '../../assets/icons/settings-icon.png';
 
 const Sidebar = () => {
   return (
     <aside className="sidebar">
+            {}
+      <div className="site-title">
+      Fiber Optic GIS
+      </div>
       <nav>
         <ul>
           <li>
@@ -25,7 +29,7 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-            <a href="/warnings">
+            <a href="/Alarms">
               <img src={warningsIcon} alt="Alarms" className="icon" />
               <span className="title">Alarms</span>
             </a>
@@ -39,7 +43,7 @@ const Sidebar = () => {
           <li>
             <a href="/dashboard">
               <img src={dashboardIcon} alt="Dashboard" className="icon" />
-              <span className="title">Statstics</span>
+              <span className="title">Dashboard</span>
             </a>
           </li>
           <li>

@@ -1,9 +1,10 @@
 .map-container {
     flex: 1;
     margin: 1rem;
+    margin-top: 13rem;
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    height: 600px; /* Fixed height for the map */
+    height: 449px; /*600px Fixed height for the map */
   }
   

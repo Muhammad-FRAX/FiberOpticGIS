@@ -9,7 +9,7 @@ const Header = ({ user, onLogout }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="logo">Fiber Optic GIS</div>
+        <div className="logo"></div>
         <div className="user-menu" onClick={toggleMenu}>
           <span>{user.username} ▼</span>
           {showMenu && (

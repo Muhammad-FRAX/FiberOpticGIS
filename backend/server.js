@@ -101,7 +101,7 @@ app.post('/login', loginLimiter, (req, res) => {
   }
 });
 
-// Example protected route
+// just a testing part to test the tokens
 app.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'This is a protected route', user: req.user });
 });
@@ -109,3 +109,5 @@ app.get('/protected', authenticateToken, (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+//before
