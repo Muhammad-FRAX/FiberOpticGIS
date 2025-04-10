@@ -1,0 +1,158 @@
+.alarms-page {
+  display: flex;
+  height: 100vh;
+  background-color: #F5F5F7;
+}
+
+.alarms-content {
+  flex: 1;
+  padding: 2rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.alarms-header {
+  margin-bottom: 2rem;
+}
+
+.alarms-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  font-family: 'Albert Sans', sans-serif;
+}
+
+.alarms-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.alarm-item {
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.alarm-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alarm-item.error {
+  border-left: 4px solid #dc3545;
+}
+
+.alarm-item.warning {
+  border-left: 4px solid #ffc107;
+}
+
+.alarm-item.info {
+  border-left: 4px solid #17a2b8;
+}
+
+.alarm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alarm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.alarm-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alarm-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Albert Sans', sans-serif;
+}
+
+.severity-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.error .severity-badge {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.warning .severity-badge {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.info .severity-badge {
+  background-color: #D1ECF1;
+  color: #0C5460;
+}
+
+.alarm-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.alarm-device {
+  font-weight: 500;
+  color: #409AC1;
+}
+
+.alarm-timestamp {
+  color: #888;
+}
+
+.alarm-description {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.loading, .no-alarms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #666;
+  font-size: 1.1rem;
+  font-family: 'Albert Sans', sans-serif;
+}
+
+/* Scrollbar styling */
+.alarms-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.alarms-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.alarms-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.alarms-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

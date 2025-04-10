@@ -1,70 +1,342 @@
-# Getting Started with Create React App
+# Network Monitoring Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern web application for monitoring network devices and alarms, built with React and Neo4j.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+```
+├── public/
+│   └── index.html          # Main HTML file
+├── src/
+│   ├── assets/            # Static assets (icons, images)
+│   ├── components/        # Reusable React components
+│   │   ├── Alarms/       # Alarm-related components
+│   │   ├── Layout/       # Layout components (Sidebar, etc.)
+│   │   └── Map/          # Map visualization components
+│   ├── pages/            # Page components
+│   ├── services/         # API and service integrations
+│   ├── styles/           # CSS stylesheets
+│   ├── App.js            # Main application component
+│   └── index.js          # Application entry point
+└── backend/
+    ├── server.js         # Express server
+    ├── package.json      # Backend dependencies
+    └── .env              # Environment variables
+```
 
-### `npm start`
+## Key Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### ActiveAlarms Component
+Located in `src/components/Alarms/ActiveAlarms.js`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Displays a list of active alarms with the following features:
+- Real-time updates every 5 seconds
+- Scrollable list of alarms
+- Visual indicators for alarm severity
+- Device information and triggering relationships
+- User menu with logout functionality
 
-### `npm test`
+#### Styling
+- Modern, clean design with subtle red background
+- Custom scrollbar
+- Hover effects and transitions
+- Responsive layout
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### MapView Component
+Located in `src/components/Map/MapView.js`
 
-### `npm run build`
+Interactive map visualization with:
+- Device markers with status indicators
+- Network links between devices
+- Click interactions for device details
+- Real-time updates
+- Custom panes for proper z-index management
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Sidebar Component
+Located in `src/components/Layout/Sidebar.js`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Navigation sidebar with:
+- Dashboard link
+- Alarms page link
+- Active alarms panel
+- User menu
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Backend API
 
-### `npm run eject`
+The backend server (`backend/server.js`) provides the following endpoints:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Neo4j Integration
+- `/api/neo4j/query`: Executes Cypher queries
+- `/api/neo4j/down-count`: Gets count of down devices
+- `/api/neo4j/device-details`: Gets detailed device information
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Authentication
+- `/api/auth/login`: User authentication
+- `/api/auth/check`: Session validation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Styling System
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The application uses a consistent styling system with:
 
-## Learn More
+### Color Palette
+- Primary: #1D1D1F
+- Secondary: #8E8E93
+- Background: #F5F5F7
+- Error: #FF3B30
+- Warning: #FF9500
+- Info: #007AFF
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Typography
+- Font Family: 'Albert Sans'
+- Font Sizes: 13px - 18px
+- Font Weights: 400, 500, 600
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Components
+- Border Radius: 8px, 12px
+- Shadows: Subtle box-shadows for depth
+- Transitions: Smooth animations (0.2s ease)
 
-### Code Splitting
+## Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Real-time Monitoring
+- Automatic updates every 3-5 seconds
+- Live status indicators
+- Dynamic data visualization
 
-### Analyzing the Bundle Size
+### Alarm Management
+- Active alarm display
+- Severity-based styling
+- Device relationship tracking
+- Timestamp formatting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### User Interface
+- Responsive design
+- Modern, clean aesthetics
+- Intuitive navigation
+- Interactive elements
 
-### Making a Progressive Web App
+## Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Install dependencies:
+```bash
+npm install
+cd backend
+npm install
+```
 
-### Advanced Configuration
+2. Configure environment variables:
+Create a `.env` file in the backend directory with:
+```
+NEO4J_URI=your_neo4j_uri
+NEO4J_USER=your_neo4j_user
+NEO4J_PASSWORD=your_neo4j_password
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. Start the development servers:
+```bash
+# Terminal 1 - Frontend
+npm start
 
-### Deployment
+# Terminal 2 - Backend
+cd backend
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Dependencies
 
-### `npm run build` fails to minify
+### Frontend
+- React
+- Leaflet (for map visualization)
+- React Router
+- Axios
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Backend
+- Express
+- Neo4j Driver
+- CORS
+- dotenv
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
+
+
+
+####################
+# Network Monitoring Dashboard
+
+A modern web application for monitoring network devices and alarms, built with React and Neo4j.
+
+## Project Structure
+
+```
+├── public/
+│   └── index.html          # Main HTML file
+├── src/
+│   ├── assets/            # Static assets (icons, images)
+│   ├── components/        # Reusable React components
+│   │   ├── Alarms/       # Alarm-related components
+│   │   ├── Layout/       # Layout components (Sidebar, etc.)
+│   │   └── Map/          # Map visualization components
+│   ├── pages/            # Page components
+│   ├── services/         # API and service integrations
+│   ├── styles/           # CSS stylesheets
+│   ├── App.js            # Main application component
+│   └── index.js          # Application entry point
+└── backend/
+    ├── server.js         # Express server
+    ├── package.json      # Backend dependencies
+    └── .env              # Environment variables
+```
+
+## Key Components
+
+### ActiveAlarms Component
+Located in `src/components/Alarms/ActiveAlarms.js`
+
+Displays a list of active alarms with the following features:
+- Real-time updates every 5 seconds
+- Scrollable list of alarms
+- Visual indicators for alarm severity
+- Device information and triggering relationships
+- User menu with logout functionality
+
+#### Styling
+- Modern, clean design with subtle red background
+- Custom scrollbar
+- Hover effects and transitions
+- Responsive layout
+
+### MapView Component
+Located in `src/components/Map/MapView.js`
+
+Interactive map visualization with:
+- Device markers with status indicators
+- Network links between devices
+- Click interactions for device details
+- Real-time updates
+- Custom panes for proper z-index management
+
+### Sidebar Component
+Located in `src/components/Layout/Sidebar.js`
+
+Navigation sidebar with:
+- Dashboard link
+- Alarms page link
+- Active alarms panel
+- User menu
+
+## Backend API
+
+The backend server (`backend/server.js`) provides the following endpoints:
+
+### Neo4j Integration
+- `/api/neo4j/query`: Executes Cypher queries
+- `/api/neo4j/down-count`: Gets count of down devices
+- `/api/neo4j/device-details`: Gets detailed device information
+
+### Authentication
+- `/api/auth/login`: User authentication
+- `/api/auth/check`: Session validation
+
+## Styling System
+
+The application uses a consistent styling system with:
+
+### Color Palette
+- Primary: #1D1D1F
+- Secondary: #8E8E93
+- Background: #F5F5F7
+- Error: #FF3B30
+- Warning: #FF9500
+- Info: #007AFF
+
+### Typography
+- Font Family: 'Albert Sans'
+- Font Sizes: 13px - 18px
+- Font Weights: 400, 500, 600
+
+### Components
+- Border Radius: 8px, 12px
+- Shadows: Subtle box-shadows for depth
+- Transitions: Smooth animations (0.2s ease)
+
+## Features
+
+### Real-time Monitoring
+- Automatic updates every 3-5 seconds
+- Live status indicators
+- Dynamic data visualization
+
+### Alarm Management
+- Active alarm display
+- Severity-based styling
+- Device relationship tracking
+- Timestamp formatting
+
+### User Interface
+- Responsive design
+- Modern, clean aesthetics
+- Intuitive navigation
+- Interactive elements
+
+## Getting Started
+
+1. Install dependencies:
+```bash
+npm install
+cd backend
+npm install
+```
+
+2. Configure environment variables:
+Create a `.env` file in the backend directory with:
+```
+NEO4J_URI=your_neo4j_uri
+NEO4J_USER=your_neo4j_user
+NEO4J_PASSWORD=your_neo4j_password
+```
+
+3. Start the development servers:
+```bash
+# Terminal 1 - Frontend
+npm start
+
+# Terminal 2 - Backend
+cd backend
+npm start
+```
+
+## Dependencies
+
+### Frontend
+- React
+- Leaflet (for map visualization)
+- React Router
+- Axios
+
+### Backend
+- Express
+- Neo4j Driver
+- CORS
+- dotenv
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License.

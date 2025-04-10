@@ -1,0 +1,171 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 800px;
+  max-width: 90%;
+  max-height: 80vh;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.5rem;
+  line-height: 1;
+  z-index: 1;
+}
+
+.close-button:hover {
+  color: #ff4444;
+}
+
+.overlay-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+  height: calc(80vh - 100px);
+  overflow: hidden;
+}
+
+.overlay-section {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.overlay-section h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Dependent Nodes Section */
+.overlay-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.overlay-section li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.overlay-section li:last-child {
+  border-bottom: none;
+}
+
+.node-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Device Details Section */
+.device-details {
+  border-left: 1px solid #eee;
+  padding-left: 1rem;
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.detail-value {
+  color: #333;
+}
+
+.detail-value.up {
+  color: #1e7e34;
+}
+
+.detail-value.down {
+  color: #dc3545;
+}
+
+/* Status indicators */
+.status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status.up {
+  background-color: #e6f4ea;
+  color: #1e7e34;
+}
+
+.status.down {
+  background-color: #fce8e6;
+  color: #dc3545;
+}
+
+/* Scrollbar styling */
+.overlay-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overlay-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.overlay-section::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.overlay-section::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.no-nodes {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}

@@ -20,7 +20,8 @@ export const fetchSitesAndLinks = async () => {
     const result = await session.run(`
       MATCH (s:Site)
       OPTIONAL MATCH (d:Device)-[:LOCATED_IN]->(s)
-      OPTIONAL MATCH (d)-[r:LINKED_WITH]->(d2:Device)-[:LOCATED_IN]->(s2:Site)
+      OPTIONAL MATCH (d)-[r:LINKED_WITH ]->(d2:Device)-[:LOCATED_IN]->(s2:Site)
+      WHERE r.ranking = 'MAIN'
       RETURN s, collect(DISTINCT d) as devices, collect({site: s2, link: r}) as linkedSites
     `);
 
@@ -34,6 +35,29 @@ export const fetchSitesAndLinks = async () => {
     }));
 
     return sites;
+  } finally {
+    await session.close();
+  }
+};
+
+export const fetchDependentNodes = async (deviceId) => {
+  console.log('fetchDependentNodes called with deviceId:', deviceId);
+  const session = driver.session();
+  try {
+    const result = await session.run(`
+      MATCH (d:Device)-[:LINKED_WITH* {ranking: 'MAIN'}]->(dependent:Device)
+      WHERE d.device_name = $deviceId
+      RETURN DISTINCT dependent
+    `, { deviceId });
+
+    console.log('Neo4j query result:', result.records.length, 'records found');
+    const dependentNodes = result.records.map(record => record.get('dependent').properties);
+    console.log('Processed dependent nodes:', dependentNodes);
+
+    return dependentNodes;
+  } catch (error) {
+    console.error('Error in fetchDependentNodes:', error);
+    throw error;
   } finally {
     await session.close();
   }

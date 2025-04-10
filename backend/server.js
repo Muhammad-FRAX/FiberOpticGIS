@@ -8,6 +8,7 @@ const cors = require('cors');
 const ldap = require('ldapjs');
 const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken'); // Import jsonwebtoken
+const neo4j = require('neo4j-driver'); 
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -33,6 +34,88 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
+// Neo4j section
+
+const driver = neo4j.driver(
+  process.env.NEO4J_URI,
+  neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD)
+);
+
+// Function to execute Neo4j queries : update dependency
+const executeNeo4jQueries = async () => {
+  const session = driver.session();
+  try {
+    await session.run(`
+      MATCH (d:Device)<-[r:LINKED_WITH {ranking: 'MAIN'}]-(:Device)
+      WITH d, collect(r.status) AS statuses
+      WHERE ALL(s IN statuses WHERE s = 'DOWN')
+      SET d.status = 'DOWN';
+    `);
+
+    await session.run(`
+      MATCH (source:Device)-[r:LINKED_WITH {ranking: 'MAIN'}]->(target:Device)
+      WHERE source.status = 'DOWN'
+      SET r.status = 'DOWN';
+    `);
+
+  
+  } catch (error) {
+    console.error('Error executing Neo4j queries:', error);
+  } finally {
+    await session.close();
+  }
+};
+
+// Function to fetch down counts
+const fetchDownCounts = async () => {
+  const session = driver.session();
+  try {
+    const result = await session.run(`
+      MATCH (d:Device)
+      WHERE d.status = 'DOWN'
+      RETURN count(d) AS count, 'devices' AS type
+      UNION ALL
+      MATCH ()-[r:LINKED_WITH]->()
+      WHERE r.status = 'DOWN'
+      RETURN count(r) AS count, 'links' AS type
+    `);
+
+    //console.log('Query result:', result.records); // Log the query result
+
+    const downDevicesRecord = result.records.find(record => record.get('type') === 'devices');
+    const downLinksRecord = result.records.find(record => record.get('type') === 'links');
+
+    const downDevices = downDevicesRecord ? downDevicesRecord.get('count').toInt() : 0;
+    const downLinks = downLinksRecord ? downLinksRecord.get('count').toInt() : 0;
+
+    //console.log('Down Devices:', downDevices); // Log the down devices count
+    //console.log('Down Links:', downLinks); // Log the down links count
+    
+
+    return { downDevices, downLinks };
+  } catch (error) {
+    console.error('Error fetching down counts:', error);
+  } finally {
+    await session.close();
+  }
+};
+
+// Set up a timer to execute the Neo4j queries every 2 seconds
+setInterval(async () => {
+  await executeNeo4jQueries();
+  await fetchDownCounts();
+}, 2000);
+
+app.get('/down-counts', async (req, res) => {
+  try {
+    const counts = await fetchDownCounts();
+    res.json(counts);
+  } catch (error) {
+    console.error('Error fetching down counts:', error);
+    res.status(500).json({ error: 'Failed to fetch down counts' });
+  }
+});
 
 app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
@@ -104,6 +187,50 @@ app.post('/login', loginLimiter, (req, res) => {
 // just a testing part to test the tokens
 app.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'This is a protected route', user: req.user });
+});
+
+// Neo4j query endpoint
+app.post('/api/neo4j/query', async (req, res) => {
+  const session = driver.session();
+  try {
+    const { query } = req.body;
+    //console.log('Received Neo4j query:', query);
+    
+    const result = await session.run(query);
+   // console.log('Raw Neo4j result:', result.records);
+    
+    // Transform the result to a more usable format
+    const data = result.records.map(record => {
+      const obj = {};
+      record.keys.forEach(key => {
+        const value = record.get(key);
+        if (value && typeof value === 'object') {
+          if (value.properties) {
+            // Handle node properties
+            obj[key] = value.properties;
+          } else if (value.identity) {
+            // Handle node with no properties
+            obj[key] = {};
+          } else {
+            // Handle other values
+            obj[key] = value;
+          }
+        } else {
+          // Handle primitive values
+          obj[key] = value;
+        }
+      });
+      return obj;
+    });
+    
+    //console.log('Transformed data:', data);
+    res.json(data);
+  } catch (error) {
+    console.error('Error executing Neo4j query:', error);
+    res.status(500).json({ error: 'Failed to execute Neo4j query' });
+  } finally {
+    await session.close();
+  }
 });
 
 app.listen(port, () => {

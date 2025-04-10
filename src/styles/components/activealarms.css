@@ -1,49 +1,163 @@
 .active-alarms {
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: #F5F5F7;
     padding: 1rem;
+    width: 321px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   
   .active-alarms h3 {
     font-size: 18px;
+    font-weight: 600;
     margin-bottom: 1rem;
-    color: #333;
+    color: #1D1D1F;
   }
   
-  .active-alarms ul {
+  .current-notifications {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .alarms-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    height: 100%;
+    padding-right: 8px;
+  }
+  
+  .alarms-list::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .alarms-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .alarms-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+  
+  .alarms-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
   }
   
   .alarm-item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    background-color: #FFF5F5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #FF3B30;
+    transition: all 0.2s ease;
+  }
+  
+  .alarm-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .alarm-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    background-color: #FFF0F0;
   }
   
   .alarm-item .timestamp {
-    font-size: 12px;
-    color: #666;
-  }
-  
-  .alarm-item .message {
+    font-size: 13px;
+    color: #8E8E93;
+    margin-bottom: 0.35rem;
     font-weight: 500;
   }
   
-  .alarm-item.warning {
-    background-color: #FFF3CD;
-    color: #856404;
+  .alarm-item .message {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1D1D1F;
+    line-height: 1.3;
   }
   
-  .alarm-item.error {
-    background-color: #F8D7DA;
-    color: #721C24;
+  .alarm-item .device-info {
+    font-size: 13px;
+    color: #8E8E93;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
   
-  .alarm-item.info {
-    background-color: #D1ECF1;
-    color: #0C5460;
+  .alarm-item .triggered-by {
+    color: #8E8E93;
+    font-weight: 500;
   }
+  
+  .icons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+  
+  .icon:hover {
+    opacity: 1;
+  }
+
+ .user-menu {
+  position: relative;
+  cursor: pointer;
+  font-weight: 500;
+  color: #757575;
+}
+
+.user-menu span {
+  user-select: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.dropdown-menu button {
+  border: none;
+  background: none;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  color: #1D1D1F;
+  font-size: 14px;
+}
+
+.dropdown-menu button:hover {
+  background: #F5F5F7;
+}

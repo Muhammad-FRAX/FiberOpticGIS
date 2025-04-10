@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import Dashboard from './pages/Dashboard'; // Import the Dashboard page
+import Alarms from './pages/Alarms';
 import './styles/global.css';
 
 function App() {
@@ -33,6 +35,12 @@ function App() {
         </Route>
         <Route path="/home">
           {user ? <HomePage user={user} onLogout={handleLogout} /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/dashboard">
+          {user ? <Dashboard /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/alarms">
+          {user ? <Alarms /> : <Redirect to="/login" />}
         </Route>
         <Redirect from="/" to="/login" />
       </Switch>

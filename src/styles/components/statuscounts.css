@@ -1,0 +1,108 @@
+.status-counts {
+  display: flex;
+
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 830px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  margin-top: 80px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  width: 185px;
+  height: 150px;
+  border-radius: 8px;
+  padding: 0rem;
+  margin-top: 45px;
+}
+
+.today-section {
+  top: 0px; /* Distance from the top of the parent */
+  left: 0px; /* Distance from the left of the parent */
+  height: 50px;;
+}
+
+.today-label {
+  display: block; /* Ensures "Today" is on its own row */
+  font-weight: bold; /* Makes "Today" bold */
+  font-size: 0.9rem; /* Optional: Adjust font size */
+  margin-bottom: 5px; /* Add space below "Today" */
+}
+
+.today-date {
+  display: block; /* Ensures the date appears on its own row */
+  font-size: 0.85rem; /* Optional: Adjust font size */
+  color: #757575; /* Optional: Add a softer color for the date */
+}
+
+
+/* Top Row - Main icon and label aligned to the left */
+.status-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.status-top .status-icon {
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+
+}
+
+.status-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #757575;
+}
+
+/* Middle and Bottom Rows - for Up/Down details */
+.status-middle,
+.status-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+  display: grid;
+  margin-left: 30px;
+  grid-template-rows: auto auto; /* Two rows: one for the label, one for the icon and value */
+  justify-items: center; 
+}
+
+.sub-label {
+
+  grid-row: 1; 
+  font-size: 0.6rem;
+  color: #757575;
+  margin-right: 5px;
+}
+
+.sub-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0 10px;
+  grid-row: 2; /* Place in the second row */
+  display: inline-block;
+}
+
+.sub-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #454343;
+  grid-row: 2; /* Place in the second row */
+  display: inline-block;
+}
+
+.Links-box {
+  background-color: #FFF4DE;
+  margin-left: 80px;
+}
+
+.Devices-box {
+  background-color: #F3E8FF;
+  margin-left: 80px;
+}
